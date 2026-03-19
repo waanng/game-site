@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="王安的游戏作品集 - Game Lab 游戏实验室，包含打砖块、飞机大战等经典游戏">
+  <meta name="keywords" content="游戏,游戏作品集,打砖块,飞机大战,JavaScript游戏">
+  <meta name="author" content="王安">
+  <meta name="theme-color" content="#00f5d4">
+  
+  <meta property="og:title" content="GAME LAB - 游戏实验室">
+  <meta property="og:description" content="王安的游戏作品集 - 经典街机风格小游戏集合">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/og-image.jpg">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GAME LAB - 游戏实验室">
+  <meta name="twitter:description" content="王安的游戏作品集">
+  
+  <title>GAME LAB / 游戏实验室</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --accent: #00f5d4;
+      --accent-glow: rgba(0, 245, 212, 0.3);
+      --accent-dim: rgba(0, 245, 212, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: #888888;
+      --border: #222222;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* 网格背景 */
+    .grid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 245, 212, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 245, 212, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    /* 扫描线效果 */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.3;
+    }
+    
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+    
+    /* 头部区域 */
+    header {
+      text-align: center;
+      margin-bottom: 80px;
+      position: relative;
+    }
+    
+    .logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -2px;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 40px var(--accent-glow);
+    }
+    
+    .subtitle-cn {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+    
+    .subtitle-en {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+    
+    /* 像素化装饰边框 */
+    .pixel-border {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--accent);
+      opacity: 0.5;
+    }
+    
+    .pixel-border::before {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+    }
+    
+    .pixel-tl {
+      top: -20px;
+      left: -20px;
+      border-right: none;
+      border-bottom: none;
+    }
+    
+    .pixel-tl::before {
+      bottom: -4px;
+      right: -4px;
+    }
+    
+    .pixel-tr {
+      top: -20px;
+      right: -20px;
+      border-left: none;
+      border-bottom: none;
+    }
+    
+    .pixel-tr::before {
+      bottom: -4px;
+      left: -4px;
+    }
+    
+    .pixel-bl {
+      bottom: -20px;
+      left: -20px;
+      border-right: none;
+      border-top: none;
+    }
+    
+    .pixel-bl::before {
+      top: -4px;
+      right: -4px;
+    }
+    
+    .pixel-br {
+      bottom: -20px;
+      right: -20px;
+      border-left: none;
+      border-top: none;
+    }
+    
+    .pixel-br::before {
+      top: -4px;
+      left: -4px;
+    }
+    
+    /* 游戏卡片网格 */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      margin-top: 60px;
+    }
+    
+    .game-card {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      display: block;
+    }
+    
+    .game-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, var(--accent-dim) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .game-card:hover {
+      border-color: var(--accent);
+      box-shadow: 
+        0 0 20px var(--accent-glow),
+        0 0 40px var(--accent-glow),
+        inset 0 0 20px var(--accent-dim);
+      transform: translateY(-4px);
+    }
+    
+    .game-card:hover::before {
+      opacity: 1;
+    }
+    
+    .card-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+    
+    .game-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      transition: transform 0.4s ease;
+    }
+    
+    .game-card:hover .game-icon {
+      transform: scale(1.1);
+    }
+    
+    .game-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    
+    .game-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+    
+    .game-tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.625rem;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 4px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: rgba(0, 245, 212, 0.1);
+    }
+    
+    /* 像素化角标 */
+    .card-corner {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--accent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .game-card:hover .card-corner {
+      opacity: 1;
+    }
+    
+    .corner-tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
+    .corner-tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
+    .corner-bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
+    .corner-br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+    
+    /* 底部 */
+    footer {
+      text-align: center;
+      margin-top: 100px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    
+    .footer-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+    
+    .footer-text span {
+      color: var(--accent);
+    }
+    
+    /* 动画 */
+    @keyframes pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    
+    .pixel-border {
+      animation: pulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .game-card {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .game-card:nth-child(2) {
+      animation-delay: -3s;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .container {
+        padding: 40px 16px;
+      }
+      
+      header {
+        margin-bottom: 60px;
+      }
+      
+      .games-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .pixel-border {
+        display: none;
+      }
+    }
+    
+    /* 减少动画偏好 */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="scanlines"></div>
+  
+  <div class="container">
+    <header>
+      <div class="pixel-border pixel-tl"></div>
+      <div class="pixel-border pixel-tr"></div>
+      <div class="pixel-border pixel-bl"></div>
+      <div class="pixel-border pixel-br"></div>
+      
+      <h1 class="logo">GAME LAB</h1>
+      <p class="subtitle-cn">王安的游戏作品集</p>
+      <p class="subtitle-en">Game Laboratory</p>
+    </header>
+    
+    <main>
+      <div class="games-grid">
+        <a href="games/breakout/" class="game-card" aria-label="进入打砖块游戏">
+          <span class="card-corner corner-tl"></span>
+          <span class="card-corner corner-tr"></span>
+          <span class="card-corner corner-bl"></span>
+          <span class="card-corner corner-br"></span>
+          <span class="game-tag">Arcade</span>
+          
+          <div class="card-content">
+            <div class="game-icon">🧱</div>
+            <h2 class="game-title">BREAKOUT</h2>
+            <p class="game-desc">经典打砖块游戏</p>
+          </div>
+        </a>
+        
+        <a href="games/plane-strike/" class="game-card" aria-label="进入飞机大战游戏">
+          <span class="card-corner corner-tl"></span>
+          <span class="card-corner corner-tr"></span>
+          <span class="card-corner corner-bl"></span>
+          <span class="card-corner corner-br"></span>
+          <span class="game-tag">Shooter</span>
+          
+          <div class="card-content">
+            <div class="game-icon">✈️</div>
+            <h2 class="game-title">PLANE STRIKE</h2>
+            <p class="game-desc">士字飞机大战</p>
+          </div>
+        </a>
+      </div>
+    </main>
+    
+    <footer>
+      <p class="footer-text">Made with <span>♥</span> by 王安</p>
+    </footer>
+  </div>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "GAME LAB - 游戏实验室",
+    "description": "王安的游戏作品集 - 经典街机风格小游戏集合",
+    "url": "https://game.waanng.cn",
+    "author": {
+      "@type": "Person",
+      "name": "王安"
+    }
+  }
+  </script>
+</body>
+</html>

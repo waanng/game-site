@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>士字飞机大战</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>士字飞机大战</h1>
+        
+        <div class="game-area">
+            <div class="board-container">
+                <h2>你的阵地</h2>
+                <canvas id="myBoard" width="320" height="320"></canvas>
+                <div class="status" id="myStatus">等待开始...</div>
+            </div>
+            
+            <div class="board-container">
+                <h2>敌方阵地</h2>
+                <canvas id="enemyBoard" width="320" height="320"></canvas>
+                <div class="status" id="enemyStatus">等待对手...</div>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <div class="turn-indicator" id="turnIndicator">游戏未开始</div>
+            <div class="shots">猜测次数: <span id="shotCount">0</span></div>
+        </div>
+        
+        <div class="controls">
+            <button id="startBtn">开始游戏</button>
+            <button id="rotateBtn" style="display: none;">旋转飞机 (R)</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>游戏说明</h3>
+            <p>10×10 格子，每方 3 架飞机</p>
+            <p>飞机形状：机头(○) + 机翼(○○○○○) + 机身(○) + 机尾(○○○)</p>
+            <p><strong>击中所有机头获胜！</strong></p>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>

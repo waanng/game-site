@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+}
+
+.game-container {
+    text-align: center;
+    color: #fff;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #aaa;
+}
+
+.game-area {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.board-container {
+    text-align: center;
+}
+
+canvas {
+    background: #fff;
+    border: 3px solid #4a90d9;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(74, 144, 217, 0.3);
+}
+
+canvas.disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #aaa;
+    min-height: 20px;
+}
+
+.info-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 20px;
+}
+
+.turn-indicator {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+}
+
+.turn-indicator.my-turn {
+    background: rgba(46, 204, 113, 0.3);
+    color: #2ecc71;
+}
+
+.turn-indicator.enemy-turn {
+    background: rgba(231, 76, 60, 0.3);
+    color: #e74c3c;
+}
+
+.shots {
+    font-size: 1rem;
+    color: #aaa;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+button {
+    background: linear-gradient(135deg, #4a90d9, #357abd);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 217, 0.4);
+}
+
+button:disabled {
+    background: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.instructions {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.instructions h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #f1c40f;
+}
+
+.instructions p {
+    font-size: 0.85rem;
+    color: #aaa;
+    margin: 5px 0;
+}
+
+.instructions strong {
+    color: #e74c3c;
+}
