@@ -22,6 +22,13 @@
 - **操作**: 鼠标/触摸控制
 - **链接**: https://game.waanng.cn/games/plane-strike/
 
+### 🔮 Fractal Explorer - 分形探索器
+探索数学之美，无限缩放曼德勃罗集和朱利亚集分形图案。
+
+- **技术**: HTML5 Canvas + JavaScript
+- **操作**: 鼠标拖拽移动，滚轮缩放，点击查看详情
+- **链接**: https://game.waanng.cn/games/fractal-explorer/
+
 ## 技术栈
 
 - HTML5 Canvas

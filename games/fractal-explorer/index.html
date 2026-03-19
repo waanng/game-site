@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分形探索器 | Fractal Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #00f5d4;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            padding: 10px 20px;
+            border: 2px solid #00f5d4;
+            background: rgba(0, 0, 0, 0.8);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .back-link:hover {
+            background: #00f5d4;
+            color: #0a0a0a;
+            box-shadow: 0 0 20px rgba(0, 245, 212, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <a href="../../index.html" class="back-link">← 返回游戏库</a>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">分形探索器</h1>
+            <p class="subtitle">Fractal Explorer</p>
+        </header>
+
+        <main class="main-content">
+            <div class="canvas-wrapper">
+                <canvas id="fractalCanvas" width="800" height="800"></canvas>
+                <div class="selection-box" id="selectionBox"></div>
+                <div class="loading-overlay" id="loadingOverlay">
+                    <div class="spinner"></div>
+                    <span>计算中...</span>
+                </div>
+                <div class="info-panel">
+                    <div class="info-item">
+                        <span class="info-label">坐标:</span>
+                        <span class="info-value" id="coordDisplay">0.000000 + 0.000000i</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">缩放:</span>
+                        <span class="info-value" id="zoomDisplay">1.0x</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">迭代:</span>
+                        <span class="info-value" id="iterDisplay">100</span>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="control-panel">
+                <div class="panel-section">
+                    <h3 class="section-title">分形类型</h3>
+                    <div class="fractal-selector">
+                        <button class="fractal-btn active" data-type="mandelbrot">
+                            <span class="btn-icon">◈</span>
+                            <span class="btn-text">Mandelbrot</span>
+                        </button>
+                        <button class="fractal-btn" data-type="julia">
+                            <span class="btn-icon">◉</span>
+                            <span class="btn-text">Julia</span>
+                        </button>
+                        <button class="fractal-btn" data-type="burning">
+                            <span class="btn-icon">◆</span>
+                            <span class="btn-text">Burning Ship</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-section julia-params" id="juliaParams" style="display: none;">
+                    <h3 class="section-title">Julia 参数</h3>
+                    <div class="param-inputs">
+                        <div class="param-row">
+                            <label>实部 (c.real)</label>
+                            <input type="number" id="juliaReal" value="-0.7269" step="0.0001">
+                        </div>
+                        <div class="param-row">
+                            <label>虚部 (c.imag)</label>
+                            <input type="number" id="juliaImag" value="0.1889" step="0.0001">
+                        </div>
+                        <button class="preset-btn" id="applyJulia">应用参数</button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">迭代次数</h3>
+                    <div class="slider-container">
+                        <input type="range" id="iterSlider" min="50" max="2000" value="100" step="50">
+                        <div class="slider-value" id="iterValue">100</div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">色彩方案</h3>
+                    <div class="color-schemes">
+                        <button class="color-btn active" data-scheme="fire" style="background: linear-gradient(90deg, #000, #f00, #ff0, #fff);"></button>
+                        <button class="color-btn" data-scheme="ocean" style="background: linear-gradient(90deg, #000033, #0066cc, #00ccff, #fff);"></button>
+                        <button class="color-btn" data-scheme="neon" style="background: linear-gradient(90deg, #000, #ff00ff, #00ffff, #fff);"></button>
+                        <button class="color-btn" data-scheme="grayscale" style="background: linear-gradient(90deg, #000, #888, #fff);"></button>
+                        <button class="color-btn" data-scheme="forest" style="background: linear-gradient(90deg, #001a00, #006600, #66ff66, #fff);"></button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">缩放控制</h3>
+                    <div class="zoom-controls">
+                        <button class="control-btn" id="zoomIn">➕ 放大 2x</button>
+                        <button class="control-btn" id="zoomOut">➖ 缩小 0.5x</button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">操作</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn primary" id="saveBtn">
+                            <span>💾</span> 保存图片
+                        </button>
+                        <button class="action-btn secondary" id="resetBtn">
+                            <span>↺</span> 重置视图
+                        </button>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">历史记录</h3>
+                    <div class="history-list" id="historyList">
+                        <!-- 历史记录项将动态添加 -->
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3 class="section-title">发现标记</h3>
+                    <div class="discovery-list">
+                        <button class="discovery-btn" data-x="-0.74529" data-y="0.11307" data-zoom="100">
+                            🐘 大象谷
+                        </button>
+                        <button class="discovery-btn" data-x="-0.16" data-y="1.0405" data-zoom="1000">
+                            🌀 螺旋海
+                        </button>
+                        <button class="discovery-btn" data-x="-1.25066" data-y="0.02012" data-zoom="500">
+                            🦀 蟹爪湾
+                        </button>
+                        <button class="discovery-btn" data-x="-0.235125" data-y="0.827215" data-zoom="2000">
+                            ⚡ 闪电塔
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="footer">
+            <p>鼠标拖拽框选区域进行放大 | 双击快速放大 | 滚轮精细缩放</p>
+        </footer>
+    </div>
+
+    <script src="fractal.js"></script>
+</body>
+</html>
