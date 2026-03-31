@@ -35,22 +35,21 @@ body {
     position: fixed;
     top: 20px;
     left: 20px;
-    color: var(--accent-green);
+    color: #00f5d4;
     text-decoration: none;
-    font-family: 'Courier New', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
     padding: 10px 20px;
-    border: 2px solid var(--accent-green);
-    background: rgba(5, 5, 8, 0.9);
-    border-radius: 6px;
-    transition: all 0.3s ease;
+    border: 2px solid #00f5d4;
+    background: rgba(0, 0, 0, 0.8);
+    transition: all 0.3s;
     z-index: 1000;
 }
 
 .back-link:hover {
-    background: var(--accent-green);
+    background: #00f5d4;
     color: #0a0a0a;
-    box-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+    box-shadow: 0 0 20px rgba(0, 245, 212, 0.5);
 }
 
 .container {
