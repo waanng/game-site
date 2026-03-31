@@ -29,6 +29,13 @@
 - **操作**: 鼠标拖拽移动，滚轮缩放，点击查看详情
 - **链接**: https://game.waanng.cn/games/fractal-explorer/
 
+### 🧬 Life - 康威生命游戏
+经典元胞自动机，探索简单规则产生的复杂生命演化。
+
+- **技术**: HTML5 Canvas + JavaScript
+- **操作**: 鼠标绘制图案，空格开始/暂停，预设图案快速体验
+- **链接**: https://game.waanng.cn/games/game-of-life/
+
 ## 技术栈
 
 - HTML5 Canvas

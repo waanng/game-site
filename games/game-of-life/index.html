@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命游戏 | Game of Life</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">生命游戏</h1>
+            <p class="subtitle">Conway's Game of Life</p>
+        </header>
+
+        <main class="main-content">
+            <div class="game-area">
+                <canvas id="gameCanvas" width="800" height="600"></canvas>
+                
+                <div class="overlay-info">
+                    <div class="info-item">
+                        <span class="label">代数</span>
+                        <span class="value" id="generation">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">存活</span>
+                        <span class="value" id="population">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">密度</span>
+                        <span class="value" id="density">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="control-panel">
+                <!-- 模拟控制 -->
+                <div class="panel-section">
+                    <h3 class="section-title">模拟控制</h3>
+                    <div class="control-buttons">
+                        <button class="control-btn primary" id="playBtn">
+                            <span>▶</span> 开始
+                        </button>
+                        <button class="control-btn secondary" id="pauseBtn" disabled>
+                            <span>⏸</span> 暂停
+                        </button>
+                        <button class="control-btn secondary" id="stepBtn">
+                            <span>⏭</span> 单步
+                        </button>
+                        <button class="control-btn secondary" id="clearBtn">
+                            <span>🗑</span> 清空
+                        </button>
+                        <button class="control-btn secondary" id="resetBtn">
+                            <span>↺</span> 重置
+                        </button>
+                    </div>
+                    
+                    <div class="param-group">
+                        <label>模拟速度</label>
+                        <div class="slider-with-value">
+                            <input type="range" id="speedSlider" min="1" max="30" value="10">
+                            <span class="param-value" id="speedValue">10代/秒</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 预设图案 -->
+                <div class="panel-section">
+                    <h3 class="section-title">预设图案</h3>
+                    <div class="preset-grid">
+                        <button class="preset-btn" data-pattern="glider">
+                            <span class="preset-icon">✈</span>
+                            <span class="preset-name">滑翔机</span>
+                        </button>
+                        <button class="preset-btn" data-pattern="pulsar">
+                            <span class="preset-icon">✦</span>
+                            <span class="preset-name">脉冲星</span>
+                        </button>
+                        <button class="preset-btn" data-pattern="gosper">
+                            <span class="preset-icon">⚔</span>
+                            <span class="preset-name">滑翔机枪</span>
+                        </button>
+                        <button class="preset-btn" data-pattern="random">
+                            <span class="preset-icon">🎲</span>
+                            <span class="preset-name">随机</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 网格设置 -->
+                <div class="panel-section">
+                    <h3 class="section-title">网格设置</h3>
+                    <div class="param-group">
+                        <label>网格大小</label>
+                        <select id="gridSize">
+                            <option value="50">50 × 50</option>
+                            <option value="80" selected>80 × 60</option>
+                            <option value="100">100 × 100</option>
+                            <option value="150">150 × 150</option>
+                        </select>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="showGrid" checked>
+                            <span>显示网格线</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="wrapEdges" checked>
+                            <span>环形边界</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 显示模式 -->
+                <div class="panel-section">
+                    <h3 class="section-title">显示模式</h3>
+                    <div class="mode-selector">
+                        <button class="mode-btn active" data-mode="standard">
+                            <span class="mode-color" style="background: #4ade80;"></span>
+                            <span>标准</span>
+                        </button>
+                        <button class="mode-btn" data-mode="age">
+                            <span class="mode-color" style="background: linear-gradient(90deg, #60a5fa, #f87171);"></span>
+                            <span>年龄</span>
+                        </button>
+                        <button class="mode-btn" data-mode="heatmap">
+                            <span class="mode-color" style="background: linear-gradient(90deg, #1e3a8a, #fbbf24, #dc2626);"></span>
+                            <span>热力图</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 操作说明 -->
+                <div class="panel-section">
+                    <h3 class="section-title">操作说明</h3>
+                    <div class="instructions">
+                        <p><kbd>左键</kbd> 绘制/擦除细胞</p>
+                        <p><kbd>空格</kbd> 开始/暂停</p>
+                        <p><kbd>S</kbd> 单步执行</p>
+                        <p><kbd>C</kbd> 清空画布</p>
+                        <p><kbd>R</kbd> 重置</p>
+                    </div>
+                </div>
+
+                <!-- 保存/加载 -->
+                <div class="panel-section">
+                    <h3 class="section-title">保存/加载</h3>
+                    <div class="file-actions">
+                        <button class="action-btn" id="saveBtn">
+                            <span>💾</span> 保存图案
+                        </button>
+                        <button class="action-btn" id="loadBtn">
+                            <span>📂</span> 加载图案
+                        </button>
+                        <input type="file" id="fileInput" accept=".json" style="display: none;">
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="footer">
+            <p>康威生命游戏 | 元胞自动机 | 简单规则产生复杂行为</p>
+        </footer>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
