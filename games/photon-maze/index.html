@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>激光反射迷宫 | Photon Maze</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="../../index.html" class="back-link">← 返回游戏库</a>
+
+    <div class="grid-bg"></div>
+    <div class="glow glow-left"></div>
+    <div class="glow glow-right"></div>
+
+    <div class="container">
+        <header class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">GAME LAB / PHOTON SYSTEM</p>
+                <h1 class="title">激光反射迷宫</h1>
+                <p class="subtitle">点击旋转镜面，让激光在实验矩阵中多次反射，最终点亮目标核心。</p>
+            </div>
+
+            <div class="hero-metrics">
+                <div class="metric-card">
+                    <span>当前关卡</span>
+                    <strong id="levelLabel">01</strong>
+                </div>
+                <div class="metric-card">
+                    <span>系统状态</span>
+                    <strong id="systemStatus">待校准</strong>
+                </div>
+                <div class="metric-card">
+                    <span>反射次数</span>
+                    <strong id="bounceCount">0</strong>
+                </div>
+            </div>
+        </header>
+
+        <main class="workspace">
+            <section class="game-shell">
+                <div class="toolbar">
+                    <div>
+                        <p class="section-kicker">实验矩阵</p>
+                        <h2 id="boardTitle">Level 1 · 第一束光</h2>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button id="resetBtn" class="ghost-btn" type="button">重置本关</button>
+                        <button id="nextBtn" class="primary-btn" type="button" disabled>下一关</button>
+                    </div>
+                </div>
+
+                <div class="board-stage">
+                    <div id="board" class="board" aria-label="激光迷宫棋盘"></div>
+                    <svg id="beamLayer" class="beam-layer" aria-hidden="true"></svg>
+                </div>
+            </section>
+
+            <aside class="side-panel">
+                <section class="panel-block">
+                    <p class="section-kicker">关卡目标</p>
+                    <h2>通关条件</h2>
+                    <p id="missionText" class="mission-text">让光线命中目标核心。</p>
+                </section>
+
+                <section class="panel-block">
+                    <p class="section-kicker">元件图例</p>
+                    <h2>矩阵元件</h2>
+                    <div class="legend-list">
+                        <div class="legend-item"><span class="legend-chip emitter">▶</span><span>激光发射器</span></div>
+                        <div class="legend-item"><span class="legend-chip mirror">╱</span><span>可旋转镜面</span></div>
+                        <div class="legend-item"><span class="legend-chip wall">■</span><span>阻挡墙体</span></div>
+                        <div class="legend-item"><span class="legend-chip target">◎</span><span>目标核心</span></div>
+                    </div>
+                </section>
+
+                <section class="panel-block">
+                    <p class="section-kicker">操作说明</p>
+                    <h2>怎么玩</h2>
+                    <div class="tips-list">
+                        <p>1. 点击镜子可以在 `╱` 和 `╲` 之间切换。</p>
+                        <p>2. 激光会实时更新路径，不需要额外发射按钮。</p>
+                        <p>3. 命中目标核心后即可进入下一关。</p>
+                    </div>
+                </section>
+
+                <section class="panel-block">
+                    <p class="section-kicker">终端日志</p>
+                    <h2>Photon Log</h2>
+                    <div id="logPanel" class="log-panel"></div>
+                </section>
+            </aside>
+        </main>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

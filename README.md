@@ -8,6 +8,8 @@
 
 ## 最新更新
 
+- 新增 `Photon Maze / 激光反射迷宫`
+- 支持镜面旋转、激光实时重算、固定关卡挑战
 - 新增 `Quantum Minesweeper / 量子扫雷`
 - 经典 Windows 扫雷规则，加入科幻终端视觉风格
 - 支持初级 / 中级 / 高级难度、右键插旗、双击数字快速展开
@@ -48,6 +50,13 @@
 - **技术**: HTML/CSS/JavaScript
 - **操作**: 左键翻开，右键插旗，数字提示周围地雷数量
 - **链接**: https://game.waanng.cn/games/minesweeper/
+
+### 🔦 Photon Maze - 激光反射迷宫
+点击旋转镜面，让激光在矩阵中多次反射，最终命中目标核心。
+
+- **技术**: HTML/CSS/JavaScript
+- **操作**: 点击镜子切换方向，激光路径实时更新
+- **链接**: https://game.waanng.cn/games/photon-maze/
 
 ## 技术栈
 
