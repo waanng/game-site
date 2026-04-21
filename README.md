@@ -1,17 +1,23 @@
 # Game Lab / 游戏实验室
 
-王安的游戏作品集网站，展示 HTML5 Canvas 游戏开发作品。
+王安的游戏作品集网站，展示原生 Web 小游戏开发作品。
 
 ## 在线访问
 
 🎮 **https://game.waanng.cn**
+
+## 最新更新
+
+- 新增 `Quantum Minesweeper / 量子扫雷`
+- 经典 Windows 扫雷规则，加入科幻终端视觉风格
+- 支持初级 / 中级 / 高级难度、右键插旗、双击数字快速展开
 
 ## 游戏列表
 
 ### 🧱 Breakout - 打砖块
 经典打砖块游戏，使用键盘左右箭头控制挡板，空格键发射球。
 
-- **技术**: HTML5 Canvas + JavaScript
+- **技术**: HTML/CSS/JavaScript
 - **操作**: ← → 移动，空格发射
 - **链接**: https://game.waanng.cn/games/breakout/
 
@@ -36,9 +42,16 @@
 - **操作**: 鼠标绘制图案，空格开始/暂停，预设图案快速体验
 - **链接**: https://game.waanng.cn/games/game-of-life/
 
+### 💣 Quantum Minesweeper - 量子扫雷
+经典 Windows 扫雷玩法的科幻版本，在实验室终端里排查量子地雷，支持插旗、连开和多难度。
+
+- **技术**: HTML/CSS/JavaScript
+- **操作**: 左键翻开，右键插旗，数字提示周围地雷数量
+- **链接**: https://game.waanng.cn/games/minesweeper/
+
 ## 技术栈
 
-- HTML5 Canvas
+- HTML5 Canvas / DOM Grid
 - Vanilla JavaScript
 - CSS3
 - GitHub Pages 部署

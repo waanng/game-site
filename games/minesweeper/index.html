@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>量子扫雷 | Quantum Minesweeper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="../../index.html" class="back-link">← 返回游戏库</a>
+
+    <div class="grid-bg"></div>
+    <div class="glow glow-left"></div>
+    <div class="glow glow-right"></div>
+
+    <div class="container">
+        <header class="hero">
+            <div>
+                <p class="eyebrow">GAME LAB / QUANTUM TERMINAL</p>
+                <h1 class="title">量子扫雷</h1>
+                <p class="subtitle">经典 Windows 扫雷玩法，用科幻终端重新包装。排查危险格点，插旗标记，清空整片安全区域。</p>
+            </div>
+            <div class="hero-panel">
+                <div class="hero-chip">
+                    <span>实验模式</span>
+                    <strong id="modeLabel">初级矩阵</strong>
+                </div>
+                <div class="hero-chip">
+                    <span>系统状态</span>
+                    <strong id="systemStatus">待机</strong>
+                </div>
+            </div>
+        </header>
+
+        <main class="workspace">
+            <section class="game-shell">
+                <div class="toolbar">
+                    <div class="difficulty-tabs" id="difficultyTabs">
+                        <button class="tab active" type="button" data-level="easy">初级</button>
+                        <button class="tab" type="button" data-level="medium">中级</button>
+                        <button class="tab" type="button" data-level="hard">高级</button>
+                    </div>
+
+                    <div class="status-bar">
+                        <div class="status-card">
+                            <span class="status-label">剩余雷数</span>
+                            <strong id="mineCount">10</strong>
+                        </div>
+                        <button id="resetBtn" class="reset-btn" type="button">◉ 重新扫描</button>
+                        <div class="status-card">
+                            <span class="status-label">计时</span>
+                            <strong id="timer">0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="board-frame">
+                    <div class="board-header">
+                        <div>
+                            <p class="section-kicker">扫描矩阵</p>
+                            <h2 id="boardTitle">9 × 9 / 10 枚量子地雷</h2>
+                        </div>
+                        <p class="board-hint">左键翻格，右键插旗，双击数字可快速展开</p>
+                    </div>
+                    <div class="board-scroll">
+                        <div id="board" class="board" aria-label="扫雷棋盘"></div>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="side-panel">
+                <section class="panel-block">
+                    <p class="section-kicker">操作说明</p>
+                    <h2>经典规则</h2>
+                    <div class="info-list">
+                        <p>1. 每个数字表示周围 8 格内的地雷数量。</p>
+                        <p>2. 右键可以插旗，标记你怀疑是雷的位置。</p>
+                        <p>3. 翻开所有非地雷格子就获胜。</p>
+                    </div>
+                </section>
+
+                <section class="panel-block">
+                    <p class="section-kicker">实时情报</p>
+                    <h2>扫描结果</h2>
+                    <div class="telemetry">
+                        <div class="telemetry-item">
+                            <span>已翻开安全格</span>
+                            <strong id="revealedCount">0</strong>
+                        </div>
+                        <div class="telemetry-item">
+                            <span>已插旗标记</span>
+                            <strong id="flagCount">0</strong>
+                        </div>
+                        <div class="telemetry-item">
+                            <span>剩余安全格</span>
+                            <strong id="safeLeft">71</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel-block">
+                    <p class="section-kicker">系统日志</p>
+                    <h2>终端输出</h2>
+                    <div id="logPanel" class="log-panel"></div>
+                </section>
+            </aside>
+        </main>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
